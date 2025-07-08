@@ -1,0 +1,337 @@
+[ {
+  "id" : "1",
+  "projectTitle" : "Notes App",
+  "description" : "An end-to-end responsive ToDo/Notes app using HTML, CSS, and JavaScript. Includes icons and supports creating, editing, deleting, and marking notes as completed. Fully functional on mobile and desktop.",
+  "technologies" : [ "HTML", "CSS", "JavaScript" ],
+  "difficulty" : "Basic",
+  "sections" : [ {
+    "title" : "1. HTML Markup",
+    "type" : "codeWithTheory",
+    "description" : "The HTML provides the structure: input field, button, and task list area with FontAwesome icons.",
+    "language" : "html",
+    "content" : "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>ToDo App</title>\n  <link rel=\"stylesheet\" href=\"style.css\">\n </head>\n<body>\n  <div class=\"container\">\n    <h1>📒 ToDo List</h1>\n    <div class=\"input-group\">\n      <input type=\"text\" id=\"taskInput\" placeholder=\"Enter a task\">\n      <button onclick=\"addTask()\">➕</button>\n    </div>\n    <ul id=\"taskList\"></ul>\n  </div>\n  <script src=\"script.js\"></script>\n</body>\n</html>"
+  }, {
+    "title" : "2. CSS Styling",
+    "type" : "codeWithTheory",
+    "description" : "The CSS makes the app look modern, centered, and responsive across devices.",
+    "language" : "css",
+    "content" : "body {\n  margin: 0;\n  font-family: 'Segoe UI', sans-serif;\n  background: #f5f5f5;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n}\n.container {\n  background: white;\n  padding: 20px;\n  width: 90%;\n  max-width: 400px;\n  border-radius: 10px;\n  box-shadow: 0 4px 8px rgba(0,0,0,0.1);\n}\n.input-group {\n  display: flex;\n}\n.input-group input {\n  flex: 1;\n  padding: 10px;\n  border: 1px solid #ccc;\n  border-radius: 5px 0 0 5px;\n}\n.input-group button {\n  padding: 10px;\n  background: #28a745;\n  color: white;\n  border: none;\n  border-radius: 0 5px 5px 0;\n  cursor: pointer;\n}\nul {\n  list-style: none;\n  padding: 0;\n  margin-top: 20px;\n}\nli {\n  padding: 10px;\n  border-bottom: 1px solid #ddd;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\nli.completed span {\n  text-decoration: line-through;\n  color: gray;\n}\n.actions button {\n  background: none;\n  border: none;\n  cursor: pointer;\n  margin-left: 8px;\n}"
+  }, {
+    "title" : "3. JavaScript Logic",
+    "type" : "codeWithTheory",
+    "description" : "Handles task operations and stores tasks in localStorage.",
+    "language" : "javascript",
+    "content" : "let tasks = JSON.parse(localStorage.getItem('tasks')) || [];\n\nfunction saveTasks() {\n  localStorage.setItem('tasks', JSON.stringify(tasks));\n}\n\nfunction renderTasks() {\n  const taskList = document.getElementById('taskList');\n  taskList.innerHTML = '';\n  tasks.forEach((task, index) => {\n    const li = document.createElement('li');\n    li.className = task.completed ? 'completed' : '';\n    li.innerHTML = `\n      <span>${task.text}</span>\n      <div class=\"actions\">\n        <button onclick=\"toggleComplete(${index})\">✔️</button>\n        <button onclick=\"editTask(${index})\">🖊️</button>\n        <button onclick=\"deleteTask(${index})\">🗑️</button>\n      </div>\n    `;\n    taskList.appendChild(li);\n  });\n}\n\nfunction addTask() {\n  const input = document.getElementById('taskInput');\n  const text = input.value.trim();\n  if (text) {\n    tasks.push({ text, completed: false });\n    saveTasks();\n    renderTasks();\n    input.value = '';\n  }\n}\n\nfunction deleteTask(index) {\n  tasks.splice(index, 1);\n  saveTasks();\n  renderTasks();\n}\n\nfunction editTask(index) {\n  const newText = prompt('Edit your task:', tasks[index].text);\n  if (newText) {\n    tasks[index].text = newText.trim();\n    saveTasks();\n    renderTasks();\n  }\n}\n\nfunction toggleComplete(index) {\n  tasks[index].completed = !tasks[index].completed;\n  saveTasks();\n  renderTasks();\n}\n\nwindow.onload = renderTasks;"
+  }, {
+    "title" : "4. Responsive UI with Icons",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "The UI adapts to screen size using percentage widths and flexible box layout. FontAwesome provides intuitive icons for all actions like Add, Edit, Complete, and Delete."
+  }, {
+    "title" : "5. Conclusion",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "This responsive ToDo App is complete with CRUD operations, icons, and state persistence via localStorage. It’s great for portfolio use or as a starting point for advanced features like authentication or database sync."
+  } ]
+}, {
+  "id" : "2",
+  "projectTitle" : "Quiz App",
+  "description" : "A fully functional, mobile-first quiz application built using HTML, CSS, and JavaScript. Users can answer multiple-choice questions, receive instant feedback, and view scores. The UI is modern and adapts seamlessly to mobile and desktop screens.",
+  "technologies" : [ "HTML", "CSS", "JavaScript" ],
+  "difficulty" : "Basic",
+  "sections" : [ {
+    "title" : "1. HTML Structure",
+    "type" : "codeWithTheory",
+    "description" : "The HTML defines the main layout of the quiz including the welcome screen, quiz container, question area, answer buttons, and results display.",
+    "language" : "html",
+    "content" : "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Quiz App</title>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n  <div class=\"quiz-container\" id=\"quiz\">\n    <div id=\"start-screen\">\n      <h1>🧠 Quiz App</h1>\n      <button onclick=\"startQuiz()\">Start Quiz</button>\n    </div>\n    <div id=\"quiz-screen\" class=\"hidden\">\n      <div class=\"question\" id=\"question\"></div>\n      <div class=\"options\" id=\"options\"></div>\n      <button id=\"next-btn\" onclick=\"nextQuestion()\">Next</button>\n    </div>\n    <div id=\"result-screen\" class=\"hidden\">\n      <h2>Your Score: <span id=\"score\"></span></h2>\n      <button onclick=\"startQuiz()\">Restart</button>\n    </div>\n  </div>\n  <script src=\"script.js\"></script>\n</body>\n</html>"
+  }, {
+    "title" : "2. CSS Styling & Responsiveness",
+    "type" : "codeWithTheory",
+    "description" : "CSS styles the UI to be centered, vibrant, and responsive using flexbox, media queries, and hover effects.",
+    "language" : "css",
+    "content" : "body {\n  margin: 0;\n  font-family: 'Segoe UI', sans-serif;\n  background: #f0f8ff;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n}\n.quiz-container {\n  background: white;\n  padding: 20px;\n  width: 90%;\n  max-width: 500px;\n  border-radius: 12px;\n  box-shadow: 0 4px 8px rgba(0,0,0,0.1);\n  text-align: center;\n}\nbutton {\n  padding: 10px 20px;\n  margin-top: 15px;\n  background: #007bff;\n  color: white;\n  border: none;\n  border-radius: 6px;\n  cursor: pointer;\n}\nbutton:hover {\n  background: #0056b3;\n}\n.options button {\n  display: block;\n  width: 100%;\n  margin: 10px 0;\n  background: #e0e0e0;\n  color: #333;\n  border: 1px solid #ccc;\n}\n.options button.correct {\n  background: #28a745;\n  color: white;\n}\n.options button.wrong {\n  background: #dc3545;\n  color: white;\n}\n.hidden {\n  display: none;\n}\n@media (max-width: 500px) {\n  .quiz-container {\n    padding: 15px;\n    font-size: 14px;\n  }\n}"
+  }, {
+    "title" : "3. JavaScript Logic",
+    "type" : "codeWithTheory",
+    "description" : "JavaScript handles question rendering, answer checking, score calculation, and screen transitions.",
+    "language" : "javascript",
+    "content" : "const questions = [\n  {\n    question: \"Which language runs in a web browser?\",\n    answers: [\"Java\", \"C\", \"Python\", \"JavaScript\"],\n    correct: 3\n  },\n  {\n    question: \"What does CSS stand for?\",\n    answers: [\"Central Style Sheets\", \"Cascading Style Sheets\", \"Cascading Simple Sheets\", \"Cars SUVs Sailboats\"],\n    correct: 1\n  },\n  {\n    question: \"What does HTML stand for?\",\n    answers: [\"Hypertext Markup Language\", \"Hypertext Markdown Language\", \"Hyperloop Machine Language\", \"Helicopters Terminals\"],\n    correct: 0\n  }\n];\n\nlet currentQuestion = 0;\nlet score = 0;\n\nfunction startQuiz() {\n  document.getElementById('start-screen').classList.add('hidden');\n  document.getElementById('result-screen').classList.add('hidden');\n  document.getElementById('quiz-screen').classList.remove('hidden');\n  currentQuestion = 0;\n  score = 0;\n  showQuestion();\n}\n\nfunction showQuestion() {\n  const q = questions[currentQuestion];\n  document.getElementById('question').innerText = q.question;\n  const options = document.getElementById('options');\n  options.innerHTML = '';\n  q.answers.forEach((answer, index) => {\n    const btn = document.createElement('button');\n    btn.innerText = answer;\n    btn.onclick = () => checkAnswer(index);\n    options.appendChild(btn);\n  });\n  document.getElementById('next-btn').style.display = 'none';\n}\n\nfunction checkAnswer(index) {\n  const q = questions[currentQuestion];\n  const buttons = document.querySelectorAll('#options button');\n  buttons.forEach((btn, i) => {\n    btn.disabled = true;\n    if (i === q.correct) btn.classList.add('correct');\n    else if (i === index) btn.classList.add('wrong');\n  });\n  if (index === q.correct) score++;\n  document.getElementById('next-btn').style.display = 'inline-block';\n}\n\nfunction nextQuestion() {\n  currentQuestion++;\n  if (currentQuestion < questions.length) {\n    showQuestion();\n  } else {\n    endQuiz();\n  }\n}\n\nfunction endQuiz() {\n  document.getElementById('quiz-screen').classList.add('hidden');\n  document.getElementById('result-screen').classList.remove('hidden');\n  document.getElementById('score').innerText = `${score} / ${questions.length}`;\n}"
+  }, {
+    "title" : "4. Responsive UI + User Interaction",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "The layout is mobile-first using flexible widths and media queries. Feedback is instant with colored options. Users can't click multiple times thanks to disabled buttons, and transitions between screens make the experience smooth."
+  }, {
+    "title" : "5. Conclusion",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "This Quiz App is responsive, lightweight, and cleanly designed for both beginners and developers aiming to add a dynamic project to their portfolio. It includes features like real-time scoring, interactivity, and replayability."
+  } ]
+}, {
+  "id" : "3",
+  "projectTitle" : "Portfolio Website",
+  "description" : "A modern developer portfolio built using React and Tailwind CSS. It features a responsive design with sections like Navbar, Hero, About, Projects, and Footer. Optimized for desktop and mobile viewing.",
+  "technologies" : [ "React", "Tailwind CSS" ],
+  "difficulty" : "Easy",
+  "sections" : [ {
+    "title" : "1. Introduction to React and Tailwind",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "React is a JavaScript library for building reusable UI components. Tailwind CSS is a utility-first CSS framework that enables rapid styling by applying classes directly in your markup. Combining React with Tailwind allows fast development of modular, responsive UI components."
+  }, {
+    "title" : "2. Folder Structure & Setup",
+    "type" : "codeWithTheory",
+    "description" : "A recommended structure for component-based development. Use Vite or Create React App to initialize.",
+    "language" : "bash",
+    "content" : "my-portfolio/\n├── public/\n├── src/\n│   ├── assets/\n│   ├── components/\n│   │   ├── Navbar.jsx\n│   │   ├── Hero.jsx\n│   │   ├── About.jsx\n│   │   ├── Projects.jsx\n│   │   └── Footer.jsx\n│   ├── App.jsx\n│   └── index.css\n├── tailwind.config.js\n├── postcss.config.js\n└── package.json"
+  }, {
+    "title" : "3. Navbar Component",
+    "type" : "codeWithTheory",
+    "description" : "Responsive navigation bar with site links.",
+    "language" : "jsx",
+    "content" : "const Navbar = () => {\n  return (\n    <nav className=\"bg-white shadow-md fixed top-0 left-0 w-full z-10\">\n      <div className=\"max-w-6xl mx-auto px-4 flex justify-between items-center h-16\">\n        <div className=\"text-xl font-bold text-indigo-600\">Tej.dev</div>\n        <div className=\"space-x-6 hidden md:flex\">\n          <a href=\"#home\" className=\"hover:text-indigo-500\">Home</a>\n          <a href=\"#about\" className=\"hover:text-indigo-500\">About</a>\n          <a href=\"#projects\" className=\"hover:text-indigo-500\">Projects</a>\n          <a href=\"#contact\" className=\"hover:text-indigo-500\">Contact</a>\n        </div>\n      </div>\n    </nav>\n  );\n};\n\nexport default Navbar;"
+  }, {
+    "title" : "4. Hero Section",
+    "type" : "codeWithTheory",
+    "description" : "First impression section with a call-to-action.",
+    "language" : "jsx",
+    "content" : "const Hero = () => {\n  return (\n    <section id=\"home\" className=\"bg-gray-50 h-screen flex items-center justify-center text-center\">\n      <div>\n        <h1 className=\"text-4xl md:text-6xl font-bold text-gray-800\">Hi, I'm Tej 👋</h1>\n        <p className=\"mt-4 text-lg md:text-xl text-gray-600\">A Frontend Developer specialized in React</p>\n        <a href=\"#projects\" className=\"mt-6 inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg\">View Projects</a>\n      </div>\n    </section>\n  );\n};\n\nexport default Hero;"
+  }, {
+    "title" : "5. About Section",
+    "type" : "codeWithTheory",
+    "description" : "Brief introduction and skillset.",
+    "language" : "jsx",
+    "content" : "const About = () => {\n  return (\n    <section id=\"about\" className=\"py-20 px-6 bg-white\">\n      <div className=\"max-w-4xl mx-auto text-center\">\n        <h2 className=\"text-3xl font-semibold text-indigo-600 mb-6\">About Me</h2>\n        <p className=\"text-gray-700 text-lg\">\n          I’m a passionate developer with a love for clean code and responsive design. I build modern websites using React, Tailwind, and APIs.\n        </p>\n      </div>\n    </section>\n  );\n};\n\nexport default About;"
+  }, {
+    "title" : "6. Footer Component",
+    "type" : "codeWithTheory",
+    "description" : "Simple responsive footer with social links.",
+    "language" : "jsx",
+    "content" : "const Footer = () => {\n  return (\n    <footer className=\"bg-gray-800 text-white py-6 text-center\">\n      <p>&copy; 2025 Tej.dev | Built with React & Tailwind</p>\n    </footer>\n  );\n};\n\nexport default Footer;"
+  }, {
+    "title" : "7. Putting It All Together in App.jsx",
+    "type" : "codeWithTheory",
+    "description" : "Main app file importing and composing all sections.",
+    "language" : "jsx",
+    "content" : "import Navbar from './components/Navbar';\nimport Hero from './components/Hero';\nimport About from './components/About';\nimport Footer from './components/Footer';\n\nfunction App() {\n  return (\n    <div>\n      <Navbar />\n      <Hero />\n      <About />\n      <Footer />\n    </div>\n  );\n}\n\nexport default App;"
+  }, {
+    "title" : "8. Responsive Design with Tailwind",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "Tailwind makes responsiveness Easy using mobile-first utility classes like `md:text-xl`, `lg:px-20`, and `hidden md:flex`. All sections stack vertically on mobile and adjust layout using breakpoints."
+  }, {
+    "title" : "9. Conclusion",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "This portfolio showcases how to create a clean, modular, and responsive React app using Tailwind CSS. It’s a perfect project for resumes or showcasing on GitHub and personal domains."
+  } ]
+}, {
+  "id" : "4",
+  "projectTitle" : "Movie App",
+  "description" : "A responsive Movie App built with React and Tailwind CSS. It fetches trending movies using the TMDB API and displays them in a card layout with a search functionality.",
+  "technologies" : [ "React", "Tailwind CSS", "Axios", "TMDB API" ],
+  "difficulty" : "Easy",
+  "sections" : [ {
+    "title" : "1. Introduction to React and Tailwind CSS",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "React is a JavaScript library for building user interfaces using components. Tailwind CSS is a utility-first CSS framework that speeds up styling with predefined classes. Together, they create responsive and dynamic web applications efficiently."
+  }, {
+    "title" : "2. Folder Structure",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "The app is structured into reusable components and pages.\n\nmovie-app/\n├── src/\n│   ├── components/\n│   │   ├── MovieCard.jsx\n│   │   └── Navbar.jsx\n│   ├── pages/\n│   │   └── Home.jsx\n│   ├── App.jsx\n│   └── index.css"
+  }, {
+    "title" : "3. Navbar Component",
+    "type" : "codeWithTheory",
+    "description" : "A simple responsive navbar with branding.",
+    "language" : "jsx",
+    "content" : "const Navbar = () => (\n  <nav className=\"bg-gray-900 p-4 text-white text-center text-xl font-semibold\">\n    🎬 Movie App\n  </nav>\n);\n\nexport default Navbar;"
+  }, {
+    "title" : "4. Movie Card Component",
+    "type" : "codeWithTheory",
+    "description" : "Each movie is displayed using this reusable card component.",
+    "language" : "jsx",
+    "content" : "const MovieCard = ({ movie }) => (\n  <div className=\"bg-white rounded-lg shadow-md overflow-hidden w-60\">\n    <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className=\"w-full h-80 object-cover\" />\n    <div className=\"p-4\">\n      <h2 className=\"text-lg font-bold truncate\">{movie.title}</h2>\n      <p className=\"text-sm text-gray-600\">⭐ {movie.vote_average}</p>\n    </div>\n  </div>\n);\n\nexport default MovieCard;"
+  }, {
+    "title" : "5. Home Page (API Logic)",
+    "type" : "codeWithTheory",
+    "description" : "Fetches trending movies from TMDB API and displays them using MovieCard component.",
+    "language" : "jsx",
+    "content" : "import { useEffect, useState } from 'react';\nimport axios from 'axios';\nimport MovieCard from '../components/MovieCard';\n\nconst Home = () => {\n  const [movies, setMovies] = useState([]);\n\n  useEffect(() => {\n    axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=YOUR_API_KEY`)\n      .then(res => setMovies(res.data.results))\n      .catch(err => console.error(err));\n  }, []);\n\n  return (\n    <div className=\"p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6\">\n      {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)}\n    </div>\n  );\n};\n\nexport default Home;"
+  }, {
+    "title" : "6. App.jsx",
+    "type" : "codeWithTheory",
+    "description" : "Combines Navbar and Home page to render the full app.",
+    "language" : "jsx",
+    "content" : "import Navbar from './components/Navbar';\nimport Home from './pages/Home';\n\nfunction App() {\n  return (\n    <div className=\"bg-gray-100 min-h-screen\">\n      <Navbar />\n      <Home />\n    </div>\n  );\n}\n\nexport default App;"
+  }, {
+    "title" : "7. Tailwind Configuration",
+    "type" : "codeWithTheory",
+    "description" : "Make sure Tailwind is configured in `tailwind.config.js` and imported in `index.css`.",
+    "language" : "javascript",
+    "content" : "// tailwind.config.js\nmodule.exports = {\n  content: ['./src/**/*.{js,jsx,ts,tsx}'],\n  theme: { extend: {} },\n  plugins: [],\n};"
+  }, {
+    "title" : "8. index.css",
+    "type" : "codeWithTheory",
+    "description" : "Tailwind CSS setup in CSS file.",
+    "language" : "css",
+    "content" : "@tailwind base;\n@tailwind components;\n@tailwind utilities;"
+  }, {
+    "title" : "9. Responsive Design",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "Tailwind’s grid system and utility classes like `sm:`, `md:`, and `lg:` ensure the movie cards adjust across different screen sizes."
+  }, {
+    "title" : "10. Conclusion",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "This movie app showcases how to fetch and display external data using Axios in React and Tailwind CSS. You can extend it with a search bar, pagination, or movie detail pages."
+  } ]
+}, {
+  "id" : "5",
+  "projectTitle" : "Employee Management System",
+  "description" : "A responsive Movie App built with React and Tailwind CSS. It fetches trending movies using the TMDB API and displays them in a card layout with a search functionality.",
+  "technologies" : [ "Spring Boot", "JPA", "Axios", "TMDB API" ],
+  "difficulty" : "Medium",
+  "sections" : [ {
+    "title" : "1. Introduction to React and Tailwind CSS",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "React is a JavaScript library for building user interfaces using components. Tailwind CSS is a utility-first CSS framework that speeds up styling with predefined classes. Together, they create responsive and dynamic web applications efficiently."
+  }, {
+    "title" : "2. Folder Structure",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "The app is structured into reusable components and pages.\n\nmovie-app/\n├── src/\n│   ├── components/\n│   │   ├── MovieCard.jsx\n│   │   └── Navbar.jsx\n│   ├── pages/\n│   │   └── Home.jsx\n│   ├── App.jsx\n│   └── index.css"
+  }, {
+    "title" : "3. Navbar Component",
+    "type" : "codeWithTheory",
+    "description" : "A simple responsive navbar with branding.",
+    "language" : "jsx",
+    "content" : "const Navbar = () => (\n  <nav className=\"bg-gray-900 p-4 text-white text-center text-xl font-semibold\">\n    🎬 Movie App\n  </nav>\n);\n\nexport default Navbar;"
+  }, {
+    "title" : "4. Movie Card Component",
+    "type" : "codeWithTheory",
+    "description" : "Each movie is displayed using this reusable card component.",
+    "language" : "jsx",
+    "content" : "const MovieCard = ({ movie }) => (\n  <div className=\"bg-white rounded-lg shadow-md overflow-hidden w-60\">\n    <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className=\"w-full h-80 object-cover\" />\n    <div className=\"p-4\">\n      <h2 className=\"text-lg font-bold truncate\">{movie.title}</h2>\n      <p className=\"text-sm text-gray-600\">⭐ {movie.vote_average}</p>\n    </div>\n  </div>\n);\n\nexport default MovieCard;"
+  }, {
+    "title" : "5. Home Page (API Logic)",
+    "type" : "codeWithTheory",
+    "description" : "Fetches trending movies from TMDB API and displays them using MovieCard component.",
+    "language" : "jsx",
+    "content" : "import { useEffect, useState } from 'react';\nimport axios from 'axios';\nimport MovieCard from '../components/MovieCard';\n\nconst Home = () => {\n  const [movies, setMovies] = useState([]);\n\n  useEffect(() => {\n    axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=YOUR_API_KEY`)\n      .then(res => setMovies(res.data.results))\n      .catch(err => console.error(err));\n  }, []);\n\n  return (\n    <div className=\"p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6\">\n      {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)}\n    </div>\n  );\n};\n\nexport default Home;"
+  }, {
+    "title" : "6. App.jsx",
+    "type" : "codeWithTheory",
+    "description" : "Combines Navbar and Home page to render the full app.",
+    "language" : "jsx",
+    "content" : "import Navbar from './components/Navbar';\nimport Home from './pages/Home';\n\nfunction App() {\n  return (\n    <div className=\"bg-gray-100 min-h-screen\">\n      <Navbar />\n      <Home />\n    </div>\n  );\n}\n\nexport default App;"
+  }, {
+    "title" : "7. Tailwind Configuration",
+    "type" : "codeWithTheory",
+    "description" : "Make sure Tailwind is configured in `tailwind.config.js` and imported in `index.css`.",
+    "language" : "javascript",
+    "content" : "// tailwind.config.js\nmodule.exports = {\n  content: ['./src/**/*.{js,jsx,ts,tsx}'],\n  theme: { extend: {} },\n  plugins: [],\n};"
+  }, {
+    "title" : "8. index.css",
+    "type" : "codeWithTheory",
+    "description" : "Tailwind CSS setup in CSS file.",
+    "language" : "css",
+    "content" : "@tailwind base;\n@tailwind components;\n@tailwind utilities;"
+  }, {
+    "title" : "9. Responsive Design",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "Tailwind’s grid system and utility classes like `sm:`, `md:`, and `lg:` ensure the movie cards adjust across different screen sizes."
+  }, {
+    "title" : "10. Conclusion",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "This movie app showcases how to fetch and display external data using Axios in React and Tailwind CSS. You can extend it with a search bar, pagination, or movie detail pages."
+  } ]
+}, {
+  "id" : "6",
+  "projectTitle" : "Book Stall",
+  "description" : "A responsive Movie App built with React and Tailwind CSS. It fetches trending movies using the TMDB API and displays them in a card layout with a search functionality.",
+  "technologies" : [ "React", "Tailwind CSS", "Axios", "TMDB API" ],
+  "difficulty" : "Medium",
+  "sections" : [ {
+    "title" : "1. Introduction to React and Tailwind CSS",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "React is a JavaScript library for building user interfaces using components. Tailwind CSS is a utility-first CSS framework that speeds up styling with predefined classes. Together, they create responsive and dynamic web applications efficiently."
+  }, {
+    "title" : "2. Folder Structure",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "The app is structured into reusable components and pages.\n\nmovie-app/\n├── src/\n│   ├── components/\n│   │   ├── MovieCard.jsx\n│   │   └── Navbar.jsx\n│   ├── pages/\n│   │   └── Home.jsx\n│   ├── App.jsx\n│   └── index.css"
+  }, {
+    "title" : "3. Navbar Component",
+    "type" : "codeWithTheory",
+    "description" : "A simple responsive navbar with branding.",
+    "language" : "jsx",
+    "content" : "const Navbar = () => (\n  <nav className=\"bg-gray-900 p-4 text-white text-center text-xl font-semibold\">\n    🎬 Movie App\n  </nav>\n);\n\nexport default Navbar;"
+  }, {
+    "title" : "4. Movie Card Component",
+    "type" : "codeWithTheory",
+    "description" : "Each movie is displayed using this reusable card component.",
+    "language" : "jsx",
+    "content" : "const MovieCard = ({ movie }) => (\n  <div className=\"bg-white rounded-lg shadow-md overflow-hidden w-60\">\n    <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className=\"w-full h-80 object-cover\" />\n    <div className=\"p-4\">\n      <h2 className=\"text-lg font-bold truncate\">{movie.title}</h2>\n      <p className=\"text-sm text-gray-600\">⭐ {movie.vote_average}</p>\n    </div>\n  </div>\n);\n\nexport default MovieCard;"
+  }, {
+    "title" : "5. Home Page (API Logic)",
+    "type" : "codeWithTheory",
+    "description" : "Fetches trending movies from TMDB API and displays them using MovieCard component.",
+    "language" : "jsx",
+    "content" : "import { useEffect, useState } from 'react';\nimport axios from 'axios';\nimport MovieCard from '../components/MovieCard';\n\nconst Home = () => {\n  const [movies, setMovies] = useState([]);\n\n  useEffect(() => {\n    axios.get(`https://api.themoviedb.org/3/trending/movie/week?api_key=YOUR_API_KEY`)\n      .then(res => setMovies(res.data.results))\n      .catch(err => console.error(err));\n  }, []);\n\n  return (\n    <div className=\"p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6\">\n      {movies.map(movie => <MovieCard key={movie.id} movie={movie} />)}\n    </div>\n  );\n};\n\nexport default Home;"
+  }, {
+    "title" : "6. App.jsx",
+    "type" : "codeWithTheory",
+    "description" : "Combines Navbar and Home page to render the full app.",
+    "language" : "jsx",
+    "content" : "import Navbar from './components/Navbar';\nimport Home from './pages/Home';\n\nfunction App() {\n  return (\n    <div className=\"bg-gray-100 min-h-screen\">\n      <Navbar />\n      <Home />\n    </div>\n  );\n}\n\nexport default App;"
+  }, {
+    "title" : "7. Tailwind Configuration",
+    "type" : "codeWithTheory",
+    "description" : "Make sure Tailwind is configured in `tailwind.config.js` and imported in `index.css`.",
+    "language" : "javascript",
+    "content" : "// tailwind.config.js\nmodule.exports = {\n  content: ['./src/**/*.{js,jsx,ts,tsx}'],\n  theme: { extend: {} },\n  plugins: [],\n};"
+  }, {
+    "title" : "8. index.css",
+    "type" : "codeWithTheory",
+    "description" : "Tailwind CSS setup in CSS file.",
+    "language" : "css",
+    "content" : "@tailwind base;\n@tailwind components;\n@tailwind utilities;"
+  }, {
+    "title" : "9. Responsive Design",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "Tailwind’s grid system and utility classes like `sm:`, `md:`, and `lg:` ensure the movie cards adjust across different screen sizes."
+  }, {
+    "title" : "10. Conclusion",
+    "type" : "theory",
+    "description" : null,
+    "language" : null,
+    "content" : "This movie app showcases how to fetch and display external data using Axios in React and Tailwind CSS. You can extend it with a search bar, pagination, or movie detail pages."
+  } ]
+} ]
