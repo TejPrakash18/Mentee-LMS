@@ -13,13 +13,7 @@ import java.util.Date;
 public class JwtUtil {
 
     private SecretKey secretKey;
-
-    @PostConstruct
-    public void init() {
-        // Use a secure fixed-length key (32+ characters)
-        String rawKey = "my-super-secret-key-which-is-very-secure-123456";
-        secretKey = Keys.hmacShaKeyFor(rawKey.getBytes(StandardCharsets.UTF_8));
-    }
+    
 
     public String generateToken(String username) {
         return Jwts.builder()
